@@ -1,0 +1,45 @@
+{% assign tags_page = '' %}
+
+{% for static_page in site.pages %}
+	{% if static_page.layout == 'tags' %}
+		{% assign tags_page = static_page.url %}
+		{% break %}
+	{% endif %}
+{% endfor %}
+
+{% assign the_page = include.page | default: page %}
+
+{% if the_page.tags.size > 0 and tags_page.size > 0 %}
+
+{% assign full_tags = '' | split: ',' %}
+{% for tag in the_page.tags %}
+	{% capture full_tag %}<a href="{{ tags_page }}#{{ tag | slugify }}">{{ tag }}</a>{% endcapture %}
+	{% assign full_tags = full_tags | push: full_tag %}
+{% endfor %}
+
+{% if include.short %}
+
+	{% if full_tags.size > 1 %}
+	/ <i class="fa fa-tags" aria-hidden="true"></i>
+	{%  else %}
+	/ <i class="fa fa-tag" aria-hidden="true"></i>
+	{% endif %}
+
+	{% if full_tags.size > 2 %}
+		{% capture suffix %}{{ full_tags.size | minus: 1 }} more</a>{% endcapture %}
+		{% assign updated_full_tags = '' | split: ',' %}
+		{% for full_tag in full_tags limit: 1 %}
+			{% assign updated_full_tags = updated_full_tags | push: full_tag %}
+		{% endfor %}
+		{% assign full_tags = updated_full_tags %}
+		{% assign full_tags = full_tags | push: suffix %}
+	{% endif %}
+
+	{{ full_tags | join: ", " }}
+
+{% else %}
+	{{ site.data.settings.post_tags }}
+	{{ full_tags | array_to_sentence_string: "and" }}.
+{% endif %}
+
+{% endif %}

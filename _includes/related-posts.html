@@ -1,0 +1,37 @@
+{% comment %}
+Variables used are generated in post-metadata.html, included via
+_layous/post.html.
+{% endcomment %}
+
+{% if navigation_category and site.data.settings.related_posts.category_toc_heading %}
+  {% assign category_name = navigation_category_page.title | default: navigation_category %}
+  {% assign category_heading = site.data.settings.related_posts.category_toc_heading | replace: "{category}", category_name %}
+  <div class="related">
+    <h2 class="posts-list-header">{{ category_heading }}</h2>
+    <div class="posts-list">
+      {% assign sorted_category_posts = site.categories[navigation_category] | sort: "date" %}
+      {% for category_post in sorted_category_posts %}
+        {% if category_post.url == page.url %}
+          <h3>
+            <span class="post-list-index">{{ forloop.index }}. </span>
+            {{ category_post.title }} 
+            <span class="small">(This post)</span>
+          </h3>
+        {% else %}
+	        {% include post-list-entry.html post=category_post index=forloop.index %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+{% if related_posts.size > 0 %}
+  <div class="related">
+    <h2 class="posts-list-header">{{ site.data.settings.related_posts.heading }}</h2>
+    <div class="posts-list">
+      {% for related_post in related_posts %}
+        {% include post-list-entry.html post=related_post %}
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

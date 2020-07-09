@@ -1,0 +1,75 @@
+$darkest-content-color: black !default;
+$darker-content-color: #333 !default;
+$light-content-color: #999 !default;
+$lighter-content-color: #9a9a9a !default;
+$lightest-content-color: #ccc !default;
+
+$masthead-title-color: #505050 !default;
+$page-matter-light-color:  $light-content-color !default;
+$body-color: #515151 !default;
+$code-background-color: #f5f5f5 !default;
+$pagination-button-color: #e0e0e0 !default;
+$background-color: white !default;
+
+$masthead-surround-color:  $page-matter-light-color !default;
+$masthead-subtitle-color: $masthead-surround-color !default;
+$menu-text-color: $masthead-surround-color !default;
+$menu-icon-color: $masthead-surround-color !default;
+
+$heading-color: $darker-content-color !default;
+
+$link-color: $darker-content-color !default;
+$link-hover-color: $darkest-content-color !default;
+
+$blockquote-color: $light-content-color !default;
+$blockquote-indent-color: $lightest-content-color !default;
+
+$horizontal-rule-color: $lightest-content-color !default;
+
+$table-border-color: $darkest-content-color !default;
+
+$back-matter-color: $lighter-content-color !default;
+$back-matter-color-link-hover-color: $link-hover-color !default;
+
+$pagination-border-color: $pagination-button-color !default;
+$pagination-active-color: $darkest-content-color !default;
+$pagination-inactive-color: $light-content-color !default;
+$pagination-hover-background-color: $pagination-button-color !default;
+
+$footer-color: $page-matter-light-color !default;
+
+$footer-text-color: $footer-color !default;
+$footer-link-color: $footer-color !default;
+$footer-link-hover-color: $footer-color !default;
+
+
+$icon-envelope-hover: #f39c12 !default;
+$icon-twitter-hover: #00aced !default;
+$icon-instagram-hover: #343434 !default;
+$icon-github-hover: #375989 !default;
+$icon-linkedin-hover: #0073a4 !default;
+$icon-facebook-hover: #3d5b99 !default;
+$icon-googleplus-hover: #e64a41 !default;
+$icon-pinterest-hover: #bd081c !default;
+$icon-medium-hover: #00AB6C !default;
+$icon-codepen-hover: black !default;
+$icon-rss-hover: #ff6600 !default;
+$icon-hackernews-hover: #ff6600 !default;
+
+
+/* Fonts. */
+$heading-font-family: "Quattrocento Sans", sans-serif !default;
+$body-font-family: "PT Serif", Georgia, "Times New Roman", serif !default;
+$code-font-family: "Source Code Pro", monospace !default;
+$back-matter-font-family: "Quattrocento Sans", sans-serif !default;
+$pagination-font-family: "Quattrocento Sans", sans-serif !default;
+
+/* Font sizes. */
+$body-font-size: 18px !default;
+$body-line-height: 1.5em !default;
+$heading-line-height: 1.25em !default;
+
+$content-width: 615px !default;
+$fill-width-mobile-breakpoint: 768px !default;
+$rescale-content-mobile-breakpoint: 30em !default;
+$relayout-in-page-nav-mobile-breakpoint: 30em !default;

@@ -1,0 +1,43 @@
+---
+layout: page
+---
+
+{{ content }}
+
+<hr/>
+
+{% if page.categories %}
+	{% assign categories =  page.categories %}
+{% else %}
+	{% capture site_cats %}{% for cat in site.categories %}{{ cat | first | downcase }}|{{ cat | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+	{% assign words = site_cats | split:',' | sort %}
+	{% capture sorted %}{% for pair in words %}{{pair | split:'|' | last }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+	{% assign categories = sorted | split:',' %}
+{% endif %}
+
+<div class="posts-list">
+	{% for category in categories %}
+		{% assign category_page = nil %}
+		{% for page in site.pages %}
+			{% unless page.layout == 'category' %}
+				{% continue %}
+			{% endunless %}
+			{% if page.category %}
+				{% if page.category == category %}
+					{% assign category_page = page %}
+					{% break %}
+				{% else %}
+					{% continue %}
+				{% endif %}
+			{% endif %}
+			{% if page.title == category %}
+				{% assign category_page = page %}
+				{% break %}
+			{% endif %}
+		{% endfor %}
+		{% unless category_page %}
+			{% continue %}
+		{% endunless %}
+		{% include category-list-entry.html category_page=category_page category=category %}
+	{% endfor %}
+</div>

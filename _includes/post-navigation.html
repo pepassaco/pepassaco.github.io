@@ -1,0 +1,32 @@
+{% comment %}
+Variables used are generated in post-metadata.html, included via
+_layous/post.html.
+{% endcomment %}
+
+{% if previous_post or next_post %}
+  {% assign category_name = navigation_category_page.title | default: navigation_category %}
+  <nav class="category-navigation">
+    {% if previous_post %}
+      {% assign title = site.data.settings.post_navigation.previous_title %}
+      {% assign title = title | replace: "{title}", previous_post.title %}
+      {% assign title = title | replace: "{category}", category_name %}
+
+      <div class="category-navigation-prev">
+        <a href="{{ previous_post.url }}">
+          {{ title }}
+        </a>
+      </div>
+    {% endif %}
+    {% if next_post %}
+      {% assign title = site.data.settings.post_navigation.next_title %}
+      {% assign title = title | replace: "{title}", next_post.title %}
+      {% assign title = title | replace: "{category}", category_name %}
+
+      <div class="category-navigation-next">
+        <a href="{{ next_post.url }}">
+          {{ title }}
+        </a>
+      </div>
+    {% endif %}
+  </nav>
+{% endif %}
