@@ -1,0 +1,92 @@
+{% assign previous_post = nil %}
+{% assign next_post = nil %}
+{% assign navigation_category = nil %}
+{% assign navigation_category_page = nil %}
+
+{% if site.data.settings.post_navigation.type == 'category' %}
+
+  {% for category in include.page.categories limit: 1 %}
+
+    {% assign category_posts = site.categories[category] %}
+    {% assign navigation_category = category %}
+    {% assign sorted_category_posts = site.categories[category] | sort "date" %}
+    {% for category_post in sorted_category_posts %}
+      {% if category_post.url == include.page.url %}
+        {% unless forloop.first %}
+          {% assign previous_index = forloop.index | minus: 2 %}
+          {% assign previous_post = sorted_category_posts[previous_index] %}
+        {% endunless %}
+        {% unless forloop.last %}
+          {% assign next_index = forloop.index %}
+          {% assign next_post = sorted_category_posts[next_index] %}
+        {% endunless %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+    
+    {% for site_page in site.pages %}
+      {% unless site_page.layout == 'category' %}
+        {% continue %}
+      {% endunless %}
+      {% if site_page.category %}
+        {% if site_page.category == category %}
+          {% assign navigation_category_page = site_page %}
+          {% break %}
+        {% else %}
+          {% continue %}
+        {% endif %}
+      {% endif %}
+      {% if site_page.title == category %}
+        {% assign navigation_category_page = site_page %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+
+  {% endfor %}
+
+{% else if site.data.settings.post_navigation.type == 'site' %}
+  {% assign previous_post = include.page.previous %}
+  {% assign next_post = include.page.next %}
+{% endif %}
+
+
+{% assign used_posts = include.page.url | split: ',' %}
+{% if previous_post and site.data.settings.related_posts.exclude_post_navigation %}
+  {% assign used_posts = used_posts | push: previous_post.url %}
+{% endif %}
+{% if next_post and site.data.settings.related_posts.exclude_post_navigation %}
+  {% assign used_posts = used_posts | push: next_post.url %}
+{% endif %}
+
+
+{% if site.data.settings.related_posts.type == 'tags' %}
+  {% assign posts = '' | split: ',' %}
+  {% for tag in include.page.tags %}
+    {% assign posts = site.tags[tag] | concat: posts %}
+  {% endfor %}
+  {% assign posts = posts | uniq %}
+{% else if site.data.settings.related_posts.type == 'site' %}
+  {% assign posts = site.related_posts %}
+{% else if site.data.settings.related_posts.type == 'all' %}
+  {% assign posts = site.posts %}
+{% endif %}
+
+{% assign temp = '' | split: ',' %}
+{% for post in posts %}
+  {% unless used_posts contains post.url %}
+    {% assign temp = temp | push: post %}
+  {% endunless %}
+{% endfor %}
+{% assign posts = temp %}
+
+{% if site.data.settings.related_posts.post_filter %}
+  {% assign temp = '' | split: ',' %}
+  {% for post in posts %}
+    {% if post[site.data.settings.related_posts.post_filter] %}
+      {% assign temp = temp | push: post %}
+    {% endif %}
+  {% endfor %}
+  {% assign posts = temp %}
+{% endif %}
+
+{% assign related_posts = posts | sample: site.data.settings.related_posts.count %}

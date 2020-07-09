@@ -1,0 +1,29 @@
+---
+layout: page
+---
+
+{% unless page.content == '' %}
+  {{ content }}
+  <h2>Posts:</h2>
+{% endunless %}
+
+{% assign category = page.category | default: page.title %}
+{% assign sorted_category_posts = site.categories[category] | sort: "date" %}
+
+<div class="posts-list">
+  {% for post in sorted_category_posts %}
+    {% if page.tags %}
+      {% assign matched = false %}
+      {% for tag in post.tags %}
+        {% if page.tags contains tag %}
+          {% assign matched = true %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+      {% unless matched %}
+        {% continue %}
+      {% endunless %}
+    {% endif %}
+    {% include post-list-entry.html post=post %}
+  {% endfor %}
+</div>

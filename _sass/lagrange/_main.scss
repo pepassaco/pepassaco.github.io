@@ -1,0 +1,413 @@
+/*
+  Contents:
+    Base
+    Site container
+    Masthead
+    Thumbnail
+    Post
+    Pagination
+    Footer
+    Menu
+    Tables
+*/
+
+/*
+  Base
+*/
+
+body {
+  font-family: $body-font-family;
+  font-size: $body-font-size;
+  color: $body-color;
+  line-height: $body-line-height;
+  background-color: $background-color;
+}
+
+@media (max-width: $rescale-content-mobile-breakpoint) {
+  body {
+    font-size: 14px;
+    line-height: 1.5rem;
+  }
+  body h1 {
+    font-size: 1.5rem;
+  }
+}
+
+h1 {
+  font-size: 2rem;
+  margin-top: 0px;
+  &.summary {
+    margin-bottom: 0px;
+  }
+}
+
+h1 a {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $heading-font-family;
+  color: $heading-color;
+  line-height: $heading-line-height;
+}
+
+a {
+  text-decoration: underline;
+  color: $link-color;
+  transition: color 0.35s ease;
+}
+
+a:hover {
+  color: $link-hover-color;
+  border-bottom: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+blockquote {
+  margin: 10px 20px 10px;
+  padding: 0px 15px;
+  border-left: 0.25em solid $blockquote-indent-color;
+  color: $blockquote-color;
+  line-height: $body-line-height;
+}
+
+hr {
+  border-top: 1px solid $horizontal-rule-color;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+sup {
+    font-size: small;
+    line-height: 1;
+}
+
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/*
+  Site container
+*/
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  width: $content-width;
+}
+
+/*48em*/
+
+@media (max-width: $fill-width-mobile-breakpoint) {
+  .container {
+    width: 90vw;
+  }
+}
+
+/*
+  Masthead
+*/
+
+.masthead {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 4rem;
+  font-family: $heading-font-family;
+}
+
+.masthead a:hover {
+  color:$link-hover-color;
+}
+
+.masthead-title a {
+  font-size: 2rem;
+  text-decoration: none;
+  color: $masthead-title-color;
+}
+
+.masthead-subtitle {
+  color: $masthead-subtitle-color;
+}
+
+/*
+  Thumbnail
+*/
+
+.thumbnail-container {
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 5px;
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+.thumbnail-container img {
+  margin-top: -11.5%;
+  margin-bottom: -11.5%;
+}
+
+/*
+  Post
+*/
+
+.post-container {
+  margin-bottom: 4rem;
+}
+
+.posts {
+  margin-bottom: 5rem;
+  padding: 0px;
+  list-style: none;
+}
+
+.post-date {
+  display: block;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  color: $back-matter-color;
+  font-family: $back-matter-font-family;
+  font-size:0.8rem;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.35s ease;
+  }
+  a:hover {
+    color: $back-matter-color-link-hover-color;
+    text-decoration: underline;
+  }
+}
+
+.post-category {
+  line-height: 1em;
+}
+
+@media (max-width: $rescale-content-mobile-breakpoint) {
+  .posts h1 {
+    font-size: 1.5rem;
+  }
+}
+
+.related {
+  padding-bottom: 2rem;
+}
+
+.posts-list {
+  padding-left: 0px;
+  list-style: none;
+
+  h3 {
+    margin-top: 0;
+
+    .post-list-index {
+      /*color: $back-matter-color;*/
+    }
+  }
+  .small {
+    font-size: 75%;
+    color: $back-matter-color;
+    white-space: nowrap;
+    transition: color .35s ease;
+  }
+  
+  a:hover {
+    .small {
+      color: $link-hover-color;
+    }
+  }
+}
+
+.category-navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+
+  margin-top: 16px;
+  padding: 8px 0px 6px 0px;
+  width: 100%;
+
+  font-family:  $heading-font-family;
+  font-size: 1em;
+
+  a {
+   color: $page-matter-light-color;
+   text-decoration: none;
+
+   &:hover {
+     color: $link-hover-color;
+   }
+ }
+}
+
+.category-navigation-prev {
+  margin-right: 5px;
+  flex-grow: 1;
+
+  &:before {
+    content: "← ";
+    color: $body-color;
+  }
+}
+
+.category-navigation-next {
+  margin-left: 5px;
+  text-align: right;
+  flex-grow: 1;
+
+  &:after {
+    content: " →";
+    color: $body-color;
+  }
+}
+
+@media (max-width: $relayout-in-page-nav-mobile-breakpoint) {
+  .category-navigation {
+    flex-direction: column;
+  }
+  .category-navigation-prev {
+    margin-bottom: 4px;
+    margin-right: 0px;
+  }
+  .category-navigation-next {
+    margin-top: 4px;
+    margin-left: 0px;
+  }
+}
+
+.footnotes {
+  border-top: 1px solid $horizontal-rule-color;
+  font-size: 0.8rem;
+  margin-bottom: 24px;
+  line-height: $body-line-height;
+}
+
+/*
+  Pagination
+*/
+
+.pagination {
+  overflow: hidden;
+  font-family: $pagination-font-family;
+  text-align: center;
+}
+
+.pagination a {
+  text-decoration: none;
+}
+
+.pagination-button {
+  color: $pagination-inactive-color;
+  border: 1px solid $pagination-border-color;
+  padding: 15px 45px;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  transition: color 0.35s ease, background-color 0.35s ease;
+}
+
+.pagination-active {
+  color: $pagination-active-color;
+}
+
+.pagination-active:hover {
+  background-color: $pagination-hover-background-color;
+}
+
+/*
+  Footer
+*/
+
+.footer {
+  color: $footer-text-color;
+  text-align: center;
+  margin: 2rem;
+}
+
+.footer a {
+  color: $footer-link-color;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: $footer-link-hover-color;
+}
+
+/*
+  Menu
+*/
+
+.menu {
+  padding-top: 0.5rem;
+  display: block;
+}
+
+.menu-content {
+  float: left;
+}
+
+.menu-content a {
+  color: $menu-text-color;
+  font-size: 1rem;
+  padding-right: 10px;
+}
+
+.social-icons {
+  float: right;
+}
+
+.social-icons a {
+  color: $menu-icon-color;
+  font-size: 1rem;
+}
+
+@media (max-width: $rescale-content-mobile-breakpoint) {
+  .social-icons {
+    float: left;
+    padding-top: 0px;
+  }
+  .menu-content {
+    margin-bottom: 5px;
+  }
+}
+
+/*
+  Tables
+*/
+
+table {
+  border-collapse: collapse;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+table, th, td {
+  border: 1px solid $table-border-color;
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+}
