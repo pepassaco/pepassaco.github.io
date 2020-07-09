@@ -3,7 +3,8 @@ layout: categories
 title: Categories on This Website
 categories:
   - journal
-  - about
+  - antenas
+  - satellites
 ---
 
-This is an explanation about what a categories page is and how you can use it. By default it displays every categories for which a page has been created with the `category` layout, in alphabetical order. These can be filtered, or the order changed, by setting the `categories` property in the YAML frontmatter.
+Are you looking for posts about some specific subject? No problem! Here you can find all of the entries ordered by categories:

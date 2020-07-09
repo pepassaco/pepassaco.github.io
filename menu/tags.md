@@ -1,7 +1,15 @@
 ---
 layout: tags
 title: Tags on This Website
-tags: [documentation,sample,first]
+tags: [
+  documentation,
+  sample,
+  antenas,
+  satélites,
+  SDR,
+  android,
+  apps
+]
 ---
 
-This is an explanation about what a tags page is and how you can use it. The tags which are included can be filtered by setting the `tags` argument in the YAML frontmatter.
+Find all the posts related to an specific aspect by clicking on the _tag_ you are interested in
