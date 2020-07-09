@@ -1,25 +1,33 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
+title:  "pruebaza!"
+author: Pablo Álvarez
 date:   2020-07-09 02:37:47 +0200
-categories: jekyll update
+categories: prueba
+tags: proyectos, antenas, satelites, SDR
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+# Entrevista al Radioclub en El Mundo en Nuestra Antena
 
-Jekyll also offers powerful support for code snippets:
+¡Desde el RadioClub no paramos ni en cuarentena!
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
+La semana pasada nuestros miembros Fran Acién y Pablo M. Álvarez fueron entrevistados en el programa de radio El Mundo en Nuestra Antena, donde hablamos de qué es el RadioClub, qué hacemos, nuestros proyectos y nuestro futuro. 
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
 
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+
+
+Si queréis esucharlo, aquí os dejamos el podcast y la web del programa:
+
+- [Spotify](https://open.spotify.com/episode/0cOzehdV96j0c8aH3L8F24)
+
+- [iVoox](https://www.ivoox.com/entrevista-al-radio-club-ea4rct-wefax-rtty-satnogs-audios-mp3_rf_49486173_1.html)
+
+- [MP3](https://www.ure.es/descargas/?categoria=el-mundo-en-nuestra-antena#)
+
+- [Web del programa](https://www.ure.es/el-mundo-en-nuestra-antena/)
+
+![](https://i.imgur.com/Yc82hHP.jpg)
+
+Nuestra entrevista empieza en el minuto 25, pero os animamos a escuchar el programa entero y enteraros de las novedades en el mundo de la radioafición.
+
+![](https://i.imgur.com/fatS5FR.png)
