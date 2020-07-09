@@ -2,7 +2,7 @@
 layout:  post
 title: "Control de la estación de satélites desde dispositivos Android"
 author: "Pablo Álvarez"
-categories: antenas
+categories: antennas
 tags: [
   antenas,
   satélites,
@@ -15,7 +15,6 @@ image: /assets/img/1.jpg
 
 ---
 
-# Control de la estación de satélites desde dispositivos Android
 
 Debido a la actual situación en que nos encontramos (de cuarentena y sin poder salir de casa), nos es extremadamente difícil avanzar en el desarrollo de cualquier proyecto que implique el uso o diseño de hardware. Es por ello que decidimos aprovechar este periodo para la mejora de los servicios telemáticos del RadioClub (puesta a punto y actualización de servidores, automatización de tareas de mantenimiento, etc.). 
 

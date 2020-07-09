@@ -1,8 +1,8 @@
 ---
 title: Antenas
 layout: category
-category: antenas
-image: /assets/img/1.jpg
+category: antennas
+image: /assets/img/ant.jpg
 ---
 
 Who doesn't love antennas?

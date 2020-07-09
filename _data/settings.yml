@@ -7,12 +7,12 @@ disqus:
 google-ID: ''
 
 menu:
-- {name: 'About', path: 'menu', url: 'about.html'}
-- {name: 'Calendar', path: 'menu', url: 'calendar.html'}
-- {name: 'Contact', path: 'menu', url: 'contact.html'}
-- {name: 'Tags', path: 'menu', url: 'tags.html'}
+
+- {name: 'Home', path: '.', url: ''}
 - {name: 'Categories', path: 'menu', url: 'categories.html'}
-#- {name: 'Journal', path: 'menu', url: 'journal.html'}
+- {name: 'Calendar', path: 'menu', url: 'calendar.html'}
+- {name: 'Tags', path: 'menu', url: 'tags.html'}
+- {name: 'About', path: 'menu', url: 'about.html'}
 
 # Available social icons are powered by Font Awesome, so you can use any icon that they offer
 social:

@@ -12,4 +12,4 @@ tags: [
 ]
 ---
 
-Find all the posts related to an specific aspect by clicking on the _tag_ you are interested in
+If you cannot find the post you were looking for, try clickin on the _tag_ you are interested in:

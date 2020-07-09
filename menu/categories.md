@@ -2,8 +2,7 @@
 layout: categories
 title: Categories on This Website
 categories:
-  - journal
-  - antenas
+  - antennas
   - satellites
 ---
 
