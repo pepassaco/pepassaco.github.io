@@ -1,5 +1,5 @@
 ---
-title: Antenas
+title: Antennas
 layout: category
 category: antennas
 image: /assets/img/ant.jpg

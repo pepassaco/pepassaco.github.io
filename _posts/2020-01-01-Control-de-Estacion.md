@@ -10,7 +10,7 @@ tags: [
   android,
   apps
 ]
-image: /assets/img/1.jpg
+#image: /assets/img/1.jpg
 
 
 ---
