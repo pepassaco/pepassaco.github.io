@@ -5,5 +5,5 @@ category: satellites
 image: /assets/img/sat.jpg
 ---
 
-Earth was never a limit.
+There was never a limit.
 
