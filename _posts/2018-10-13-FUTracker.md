@@ -66,17 +66,15 @@ kernel1 = np.ones((1,5),np.uint8)
 kernel2 = np.ones((5,5),np.uint8)
 kernel3 = np.ones((3,3),np.uint8)
 
-
 pts = deque(maxlen=args["buffer"])
 
 
 if not args.get("video", False):
 	vs = VideoStream(src=1).start()
-
 else:
 	vs = cv2.VideoCapture(args["video"])
+ 
 
-    
 time.sleep(1.0)
 
 fps = FPS().start()
