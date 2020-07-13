@@ -1,6 +1,6 @@
 ---
 layout:  post
-title: "Foosball ball tracker with OpenCV"
+title: "FUTracker: A foosball ball tracker with OpenCV"
 author: "Pablo Álvarez"
 categories: imaging
 tags: [
