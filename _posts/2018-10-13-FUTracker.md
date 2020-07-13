@@ -97,21 +97,19 @@ while True:
 Then, we will resize it to reduce the processing needed, blur it to remove noise and apply the color mask.
 
 ```python=
-	frame = imutils.resize(frame, width=500)
+frame = imutils.resize(frame, width=500)
 	
-	blurred = cv2.GaussianBlur(frame, (3,3), 0)
-	hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
+blurred = cv2.GaussianBlur(frame, (3,3), 0)
+hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
-	mask3 = cv2.inRange(hsv, colorLower, colorUpper)
+mask3 = cv2.inRange(hsv, colorLower, colorUpper)
 ```
 Before trying to detect the ball, we may use some morphological transformations in order to facilitate this process.
 ```python=
-	mask2 = cv2.morphologyEx(mask3, cv2.MORPH_OPEN, kernel3)
-	
-	mask1 = cv2.dilate(mask2, kernel2, iterations=1)
-	
-	mask = cv2.morphologyEx(mask1, cv2.MORPH_OPEN, kernel3)
-	mask = cv2.morphologyEx(mask1, cv2.MORPH_CLOSE, kernel3)
+mask2 = cv2.morphologyEx(mask3, cv2.MORPH_OPEN, kernel3)
+mask1 = cv2.dilate(mask2, kernel2, iterations=1)
+mask = cv2.morphologyEx(mask1, cv2.MORPH_OPEN, kernel3)
+mask = cv2.morphologyEx(mask1, cv2.MORPH_CLOSE, kernel3)
 ```
 Once we have a clear binary image without a lot of noise, we can proceed to find the ball. For that, we first find all the possible contours. If we can detect more than one, we choose the one whose dimmensions can match the ones of the ball. Finally, we calculate its centroid, which will become our data about the position of the ball, and draw a rectangle around the ball.
 
