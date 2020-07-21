@@ -1,6 +1,6 @@
 ---
 layout:  post
-title: "Designing from scratch a NOAA/Meteor satellite receiving station in the EA4RCT"
+title: "Designing from scratch a NOAA/Meteor satellite receiving station at the EA4RCT"
 author: "Pablo Álvarez"
 categories: satellites
 tags: [
