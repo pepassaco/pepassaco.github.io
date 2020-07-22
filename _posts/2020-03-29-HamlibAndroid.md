@@ -1,6 +1,6 @@
 ---
 layout:  post
-title: "pIMU: A Wireless Portable IMU sensor (final build with PCB and code)"
+title: "Controling antenna rotators remotely from an Android phone"
 author: "Pablo Álvarez"
 categories: antennas
 tags: [
@@ -10,34 +10,36 @@ image: /assets/img/posts/2020-03-29-HamlibAndroid/3.jpg
 
 ---
 
-Debido a la actual situación en que nos encontramos (de cuarentena y sin poder salir de casa), nos es extremadamente difícil avanzar en el desarrollo de cualquier proyecto que implique el uso o diseño de hardware. Es por ello que decidimos aprovechar este periodo para la mejora de los servicios telemáticos del RadioClub (puesta a punto y actualización de servidores, automatización de tareas de mantenimiento, etc.). 
+**TL;DR**: You can find an app to control antenna rotators connected to a Hamlib served from any Android phone in my [GitHub](https://github.com/pepassaco/HamlibAndroid). 
 
-Durante una de estas tardes de desarrollo de software surgió la siguiente conversación: 
+Due to the actual situation we are living (in a lockdown and without access to the University or electronics stores), it is extremely difficult to advance in any hardware-related project. It is mainly because of this that I tried to use this time to improve some of the telematic services we provide in the RadioClub EA4RCT. 
 
-— Oye, pues estaría guapo poder mover las antenas desde el móvil.
+During one of these maintenances, I had the following conversation with a mate:
 
-— ¿Para qué?
+*Me:* Hey, it would be cool being able to move the antennas from our mobile phones
 
-— Para nada, pero estaría guapo
+*Him:* What for?
 
-— La verdad que sí
+*Me:* Its useless, but it would be cool
 
-Fue así como decidimos desarrollar una aplicación que se conectara al servidor de Hamlib al que se encuentra conectado el rotor de la estación de satélites, para ser capaz de controlarlo desde dispositivos Android.
+*Him:* Well, that's true.
+
+It was like this that I decided to develop an Android app capable of connecting to the Hamlib server the antennas of our university are connected to. Like this, we would be able to control them remotely from a phone! Seemed cool.
 
 
-## Funcionamiento de la aplicación
+## How it works
 
-La aplicación desarrollada consta de 3 apartados: un socket TCP para la comunicación con el rotor, un sistema de predicción de los próximos satélites meteorológicos que se van a recibir desde el RadioClub (a fin de que el usuario no intente mover la antena durante el paso de un satélite entorpeciendo su recepción) y una pestaña de ajustes que nos permite modificar la dirección IP y puerto del servidor al que nos conectamos.
+The developed app is made out of 3 main parts: a TCP socket for the communication with the rotator, a prediction/tracking system to see there the next meteorological satellites have a pass (in order to avoind getting control of the satellite station while we are receiving a signal) and a settings tab to change both the IP address and the port we wat to connect the app to.
 
-### Socket TCP
+### TCP Socket 
 
-Para la creación de un socket TCP, basta crear una clase AsyncTask dentro de nuestra actividad principal (las tareas relacionadas con la comunicación en red no pueden ejecutarse en la misma hebra que la intefaz de usuario, de ahí la necesidad de declararla como AsyncTask). 
+For creating the TCP Socket, we just need to create an AsyncTask inside our main activity (it is not possible to exewcute network related tasks inside the user interface activity directly). 
 
-En nuestro caso, reutilizamos parte del código publicado en [este repositorio](https://github.com/dombrock-archive/TCPz-Android) (no es necesario reinventar la rueda), modificándolo para que en lugar de enviar mensajes arbitrarios, envíe los comandos necesarios para que nuestro servidor rotctld los reconozca. Estos comandos pueden consultarse desde [este enlace](http://manpages.ubuntu.com/manpages/xenial/man8/rotctld.8.html#commands). Concretamente, nos centraremos en los comandos *p* (get_position) y *P AZ EL* (set_position):
+In this case, we will use some of the code publish in [this repository](https://github.com/dombrock-archive/TCPz-Android) (it is not needed to reinvent the wheel), applying some modifications for that, instead of sending arbitrary messages, send the necessary commands to be understood by our *rotctld* (Hamlib rotator controller) server. These commands can be checked from [the official website](http://manpages.ubuntu.com/manpages/xenial/man8/rotctld.8.html#commands). More precisely, we will be centered in the commands *p* (get_position) and *P AZ EL* (set_position):
 
-![](https://i.imgur.com/TfAntsT.png)
+![1.0](../assets/img/posts/2020-03-29-HamlibAndroid/4.png)
 
-Cuando se pulse un botón en la aplicación de Android, se actualizará una variable booleana f correspondiente al botón pulsado y se llamará al método actualizaMensaje, el cual modifica la variable de clase msg en función del comando a enviar. Posteriormente, se llamará a sendMessage, encargado de ejecutar la AsyncTask del socket TCP:
+Once the Android app detects that a button has been pressed, a boolean variable called *f* (corresponding to the pressed button) will be updated. Then, the method *actualizaMensaje* will be called, where the class variable *msg* is modified depending on the text to be sent. Later, we call *sendMessage*, which executes the AsyncTask of the TCP Socket:
 
 ```java=
 public void sendMessage() {
@@ -61,7 +63,7 @@ public void sendMessage() {
     }
 ```
 
-Es importante tener en cuenta que cada usuario querrá conectarse a un rotor distinto, que estará conectado a un servidor con dirección IP diferente a la nuestra. Es por ello que tanto la IP como el puerto con los que se establece la conexión se almacenarán en las variables de clase *server_address* y *server_port* y se podrán modificar desde ajustes. 
+It is important to take into account that each user will want to connect the app to a different rotator, which will at the same time be controlled by a different Hamlib server with a different IP address. To provide compatibility with all server, both the server address and its port will be saved in the class variables *server_address* and *server_port* , which will be adjustable in the settings tab:
 
 ```java=
 protected String doInBackground(String... params) {
@@ -88,13 +90,15 @@ protected String doInBackground(String... params) {
             }
 ```
 
-### Actividad de ajustes para la modificación de parámetros
+### Settings activity to modify some parameters
 
-Para la creación del menú de ajustes recomendamos la lectura de este [tutorial](https://medium.com/@bhavyakaria/step-by-step-guide-to-create-app-settings-using-preferences-in-android-part-1-fa470305b530), que fue el que tuvimos en cuenta para el desarrollo de la aplicación.
+![1.0](../assets/img/posts/2020-03-29-HamlibAndroid/2.jpg)
 
-Debemos crear, por un lado, una segunda actividad Settings hija de nuestra MainActivity, de forma que al finalizar Settings se vuelva a la interfaz principal. Por otro lado, serán necesarios unos objetos toolbar y menú en la interfaz de MainActivity, de forma que al pulsar sobre la barra de herramientas se despliegue un menú con opciones, entre las que se encontrará la de ajustes.
+For creating a settings menu, I would recommend reading the following [tutorial](https://medium.com/@bhavyakaria/step-by-step-guide-to-create-app-settings-using-preferences-in-android-part-1-fa470305b530), which was the one that helped me the most for developing this app.
 
-Una segunda clase llamada SettingsFragment se encargará del manejo del objeto SharedPreferences, donde se guardarán las preferencias del usuario. Este objeto se comparte entre las distintas clases, pudiendo leerse así los datos seleccionados en Ajustes desde nuestra actividad principal:
+We must create, on the one hand, a second activity named Settings, daughter of our MainActivity, so that once Settings finishes we get returned to the previous screen. On the other hand, we will need some Toolbar and Menu objects on the MainActivity activity, so that pressing the toolbar shows a menu with some options, one of which will be Settings.
+
+A second call called SettingsFragment will be in charge of managing a SharedPreferences object, where the user preferences will be saved. This object will be sshared between the different classes, allowing us to read the parameters selected in Settings from our main activity,:
 
 ```java=
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
@@ -128,17 +132,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 ```
 
 
-### Lectura de los próximos satélites
+### Reading the next satellite passes
 
-Es importante que lo usuarios de la aplicación tomen conciencia y eviten mover las antenas mientras se está recibiendo un satélite meteorológico. Para identificar cuándo se recibirá uno de setos satélites, aprovechamos que sabemos de antemano que la estación captará automáticamente aquellos pasos de los satélites NOAA 15, 18 y 19 y Meteor M-N2 de más de 20º de elevación. Para obtener estos pasos, se pueden seguir dos caminos distintos: descargar los archivos TLE (Two Line Element) de cada satélite y realizar los cálculos pertinentes para obtener la órbita del satélite o conectarse a una API externa que ofrezca dicha información. En nuestro caso, optamos por la segunda opción, utilizando la [API de N2YO](https://www.n2yo.com/api/). 
+At the EA4RCT, it is important for the users to take into account that, if they try to move the antenna while a satellite is being tracked, they can ruin the reception (we have not implemented a priority-like system yet). In order to identify when the station will be receiving one of these satellites, we take advantage of the fact that we know that the only tracked passes are the ones from NOAA 15, 18, 19 and Meteor M2 with more than 20º of elevation. In order to get these passes in our phone, we can choose two different ways: downloading the Two-Line Element (TLE) files of each satellite and computing their trajectory to calculate when will the next AOS and LOS be, or connecting to an API that directly gives us that information. In this case, I chose the second option, since it was the easiest and fastest, and can achieve good results. For this, I went for the [N2YO API](https://www.n2yo.com/api/). 
 
-Obtener los datos que buscamos es extremadamente sencillo gracias a esta herramienta. Sólo necesitamos realizar una petición GET con el formato que nos indica la documentación y se nos devolverá un objeto JSON con los datos requeridos. Además, nos permite filtrar pasos según su elevación máxima, ahorrándonos el trabajo de tener que realizar el filtrado manualmente.
+Obtaining the data we are searching for is extremely easy thanks to this tool. We just need to make a GET request with the format required by the API and we will be given a JSON file with all the requested data. Besides, it allows us to filtrate the passes depending on its maximum elevation, so we do not have to implement this filter manually.
 
-La respuesta a una petición GET por parte del servidor tendrá la siguiente forma:
+The response to a GET request to the API will look like the following:
 
-![](https://i.imgur.com/7oLwXKz.png)
+![1.0](../assets/img/posts/2020-03-29-HamlibAndroid/5.png)
 
-Se trata de un JSONArray de 2 elementos (info y passes), donde a su vez passes es otro JSONArray con la información que buscamos. Para recibir el objeto y quedarnos sólo con los pasos, utilizaremos el siguiente código:
+It is a JSONArray of 2 elementos (info and passes), where, at the same time, passes is another JSONArray that contains the information we are looking for. To received this last object and extract the information about the passes we will do the following:
 
 ```java=
         String N15 = getResponse(URL_1+NOAA_15+URL_2+API_KEY);
@@ -167,7 +171,7 @@ Se trata de un JSONArray de 2 elementos (info y passes), donde a su vez passes e
             JSONObject JMN2 = JMN2Ar.getJSONObject(0);
 ```
 
-Donde el método getResponse se encarga de realizar la petición:
+Where the getResponse method is in charge of sending the GET request:
 
 ```java=
 private String getResponse(String endpoint) {
@@ -184,7 +188,7 @@ private String getResponse(String endpoint) {
 ```
 
 
-Una vez hecho esto, debemos tomar el valor de los campos *startUTC* y *endUTC* y convertirlos de formato de fecha UNIX a un formato estándar:
+Once we have finished this up, we must take the value from the fields *startUTC* and *endUTC* and convert them from UNIX data format to a standard format:
 
 ```java=
 long AOS_N15 = Long.parseLong(JN15.getString("startUTC"),10) * (long) 1000;
@@ -220,24 +224,18 @@ long AOS_N15 = Long.parseLong(JN15.getString("startUTC"),10) * (long) 1000;
             return ("Siguientes pasos:\n\nNOAA 15:\nAOS: " + format2.format(tAOS_N15) + "    LOS:  " + format2.format(tLOS_N15) + "\n\nNOAA 18:\nAOS: " + format2.format(tAOS_N18) + "    LOS:  " + format2.format(tLOS_N18) + "\n\nNOAA 19:\nAOS: " + format2.format(tAOS_N19) + "    LOS:  " + format2.format(tLOS_N19) + "\n\nMeteor M2:\nAOS: " + format2.format(tAOS_MN2) + "    LOS:  " + format2.format(tLOS_MN2));
 ```
 
-Finalmente, se sacarán estos datos por pantalla.
+Finally, these data will be printed on screen.
 
-## Descarga de la aplicación
+## Downloading the application
 
-Toda la información relacionada con la app se puede encontrar en su [repositorio de Gitea](https://git.radio.clubs.etsit.upm.es/Pablo/ControlAntenas_Android). 
+All the technical information related to this app can be found free in my [GitHub](https://github.com/pepassaco/HamlibAndroid). 
 
-No sólo encontrarás el archivo .apk para la instalación, sino todo el código fuente de la applicación y los archivos necesarios para la importación del proyecto desde Android Studio.
+Moreover, I have uploaded the whole Android Studio project, so that anyone can directly download it and start editing or modifying the app according to their needs.
 
-## Conclusión
+## Conclusion
 
-Graacias a este proyecto aprendimos a implementar comunicaciones en red en aplicaciones android (tanto peticiones web como sockets). Si bien su utilidad práctica parece reducida, no deja de ser una forma más de intentar modernizar los equipos de radio, adaptándolos a los tiempos actuales. 
-
-Esperamos que demostraciones de esta aplicación ayuden también a generar un interés hacia el RadioClub y la radioafición por parte de estudiantes de nuevo ingreso o jóvenes a los que les atraigan las nuevas tecnologías.
-
-
-*~mamado@ea4rct*
-
+Thanks to this project, I learnt to implement network communications in an Android app (both HTTP petitions and Sockets). While its practical utility seems a bit reduced, it is nothing but a way of trying to modernise all the old-fashined radio equipment we have in our RadioClub.
 
 ![1.0](../assets/img/posts/2020-03-29-HamlibAndroid/1.jpg)
 
-![1.0](../assets/img/posts/2020-03-29-HamlibAndroid/2.jpg)
+
