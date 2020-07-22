@@ -1,6 +1,6 @@
 ---
 layout:  post
-title: "Controling antenna rotators remotely from an Android phone"
+title: "Controling antenna rotators from an Android phone"
 author: "Pablo Álvarez"
 categories: antennas
 tags: [
@@ -10,7 +10,7 @@ image: /assets/img/posts/2020-03-29-HamlibAndroid/3.jpg
 
 ---
 
-**TL;DR**: You can find an app to control antenna rotators connected to a Hamlib served from any Android phone in my [GitHub](https://github.com/pepassaco/HamlibAndroid). 
+**TL;DR**: *I developed an app to control antenna rotators connected to a Hamlib server from any Android phone. You can find it in my [GitHub](https://github.com/pepassaco/HamlibAndroid).*
 
 Due to the actual situation we are living (in a lockdown and without access to the University or electronics stores), it is extremely difficult to advance in any hardware-related project. It is mainly because of this that I tried to use this time to improve some of the telematic services we provide in the RadioClub EA4RCT. 
 
