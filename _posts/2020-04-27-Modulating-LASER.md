@@ -1,6 +1,6 @@
 ---
 layout:  post
-title: "Sending analog audio through light: applying amplitude modulation to a LASER"
+title: "Modulating light: transmitting analog audio with a LASER"
 author: "Pablo Álvarez"
 categories: electronics
 tags: [
